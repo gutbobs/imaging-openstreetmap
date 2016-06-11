@@ -3,6 +3,8 @@ import Image
 import time
 import copy
 import traceback
+import os
+import pickle
 
 from modules import ColourRules
 from modules import LoadData
@@ -28,18 +30,34 @@ def main():
 	# scale=50000
 	largestside = 6000
 
-	# load the data every time..
-	#maparray, mapwidth, mapheight = LoadData.loaddata(inputfilename, topleft, bottomright)
-	mapdata=LoadData.LoadData()
-	mapdata.inputfilename=inputfilename
-	mapdata.topleft=topleft
-	mapdata.bottomright=bottomright
-	mapdata.largestside=largestside
-	mapdata.go()
-	maparray=mapdata.maparray
-	mapwidth=mapdata.mapwidth
-	mapheight=mapdata.mapheight
+	# load the data every time unless the pickle exists.
+	# if the pickle exists, then we're assuming that the map data (geofence) is within it
+	if os.path.exists(picklefilename):
+		print time.ctime(),
+		print "loading pickle file"
+		maparray=pickle.load( open(picklefilename,'r') )
+		mapdata=LoadData.LoadData()
+		mapdata.topleft=topleft
+		mapdata.bottomright=bottomright
+		mapdata.largestside=largestside
+		mapdata.maparray=maparray
+		mapdata.getsize()
+		mapwidth=mapdata.mapwidth
+		mapheight=mapdata.mapheight
+	else:
+		mapdata=LoadData.LoadData()
+		mapdata.inputfilename=inputfilename
+		mapdata.topleft=topleft
+		mapdata.bottomright=bottomright
+		mapdata.largestside=largestside
+		mapdata.go()
+		maparray=mapdata.maparray
+		mapwidth=mapdata.mapwidth
+		mapheight=mapdata.mapheight
+		pickle.dump(maparray, open(picklefilename,'w') )
 
+	print "Mapheight:",mapheight
+	print "Mapwidth:",mapwidth
 
 	# Make the map pretty
 	newarray = copy.deepcopy(maparray)
@@ -57,7 +75,7 @@ def main():
 		colcount = 0
 		for pixel in row:
 			if pixel != 0:
-				colourvalue, halfcolourvalue = ColourRules.getcolour(pixel, maxvalue)
+				colourvalue, halfcolourvalue = ColourRules.ReturnColour(pixel, maxvalue)
 
 				# place the half colours
 				colour = colourdict[colourvalue]
@@ -100,11 +118,9 @@ def main():
 	image2.save("map7-1.png", 'PNG', quality=quality_val)
 	# imageMap.show()
 
-
 	endtime = time.time()
 	print time.ctime()
 	print  "Elapsed time:%s", endtime - starttime
-
 
 if __name__ == "__main__":
 	main()

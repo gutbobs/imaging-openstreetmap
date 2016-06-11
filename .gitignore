@@ -1,3 +1,4 @@
 *.pyc
 array.pickle3
 modules/.idea
+*.png

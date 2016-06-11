@@ -22,7 +22,7 @@ class getcolour:
             6:self.halfred,
             0:self.black}
 
-def ReturnColour(self,val,maxvalue):
+def ReturnColour(val,maxvalue):
     # work out val as a percent of max
     valpercent=100 * float(val)/float(maxvalue)
     #if val !=1: print val,maxvalue,valpercent
