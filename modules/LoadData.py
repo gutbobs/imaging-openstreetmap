@@ -1,4 +1,5 @@
 import numpy as np
+import pandas
 
 __author__ = 'gutbobs'
 
@@ -53,23 +54,16 @@ class LoadData:
 
 		count = 0
 		count2 = 0
-		inputfile = open(self.inputfilename)
-		for line in inputfile:
+		#inputfile = open(self.inputfilename)
+		for line in pandas.read_csv(self.inputfilename,sep=',',header=None,chunksize=1000):
 			count += 1
 			count2 += 1
-			# if count2==500000: break
-			line = line.strip()
-			if line == "": continue
-			if count == 500:
-				count = 0
-			# continue
 
-			# count=0
-			line = line.split(',')
 			try:
-				lat = (float(line[0].strip()) / 10000000) + 90
-				lon = (float(line[1].strip()) / 10000000) + 180
+				lat = float(line[0][0])
+				lon = float(line[0][1])
 			except:
+				print "error"
 				continue
 
 			# discard any data points that don't fit into our topleft, bottom right geofence
