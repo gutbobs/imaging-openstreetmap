@@ -1,4 +1,4 @@
-__author__ = 'rich_000'
+__author__ = 'gutbobs'
 
 class getcolour:
     def init(self):

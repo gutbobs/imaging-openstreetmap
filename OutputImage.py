@@ -7,6 +7,7 @@ import traceback
 from modules import ColourRules
 from modules import LoadData
 
+__author__ = 'gutbobs'
 
 def main():
 	# User variables
