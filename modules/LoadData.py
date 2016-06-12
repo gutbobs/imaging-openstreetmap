@@ -65,14 +65,14 @@ class LoadData:
 				#print "row:'%s'" % row
 				#print float(row[0])
 				try:
-					lat = float(row[0])
-					lon = float(row[1])
+					lat = (float(row[0])/10000000)+90
+					lon = (float(row[1])/10000000)+180
 					#print "lat:%s\tlon:%s" % (lat,lon)
 				except:
 					print row
 					continue
 			if count % 10000 == 0: print ".",
-			if count % 400000 == 0: print ""
+			if count % 400000 == 0: print count
 
 			# discard any data points that don't fit into our topleft, bottom right geofence
 			if lat > self.topleft[0]: continue

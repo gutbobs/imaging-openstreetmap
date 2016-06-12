@@ -1,6 +1,16 @@
 # imaging-openstreetmap
 Creates images based on open street map data dumps
 
+requires the following modules :
+Image
+time
+copy
+traceback
+os
+pickle
+numpy
+pandas
+
 Examples of GPS points:
 #lat is west-east, lon is north-south
 # whole of UK
