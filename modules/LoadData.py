@@ -54,17 +54,25 @@ class LoadData:
 
 		count = 0
 		count2 = 0
+		readrows=100000
 		#inputfile = open(self.inputfilename)
-		for line in pandas.read_csv(self.inputfilename,sep=',',header=None,chunksize=1000):
-			count += 1
-			count2 += 1
-
-			try:
-				lat = float(line[0][0])
-				lon = float(line[0][1])
-			except:
-				print "error"
-				continue
+		print "opening:", self.inputfilename
+		for chunk in pandas.read_csv(self.inputfilename,sep=',',chunksize=readrows,header=1):
+			#print chunk
+			for row in chunk.values:
+				count += 1
+				count2 += 1
+				#print "row:'%s'" % row
+				#print float(row[0])
+				try:
+					lat = float(row[0])
+					lon = float(row[1])
+					#print "lat:%s\tlon:%s" % (lat,lon)
+				except:
+					print row
+					continue
+			if count % 10000 == 0: print ".",
+			if count % 400000 == 0: print ""
 
 			# discard any data points that don't fit into our topleft, bottom right geofence
 			if lat > self.topleft[0]: continue
@@ -87,5 +95,4 @@ class LoadData:
 				print self.mapheight, self.mapwidth
 				# break
 				# quit(1)
-
-		inputfile.close()
+		print "Finished loading data"
