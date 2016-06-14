@@ -120,9 +120,9 @@ class LoadData:
     print "Finished loading data"
 	
     def MakeArray(self):
-        topleftx=(self.topleft[0]+90)*10000000
-        toplefty=(self.topleft[1]+180)*10000000
-        bottomrightx=(self.bottomright[0]+90)*10000000
-        bottomrighty=(self.bottomright[1]+180)*10000000
+        self.topleftx=(self.topleft[0]+90)*10000000
+        self.toplefty=(self.topleft[1]+180)*10000000
+        self.bottomrightx=(self.bottomright[0]+90)*10000000
+        self.bottomrighty=(self.bottomright[1]+180)*10000000
 		
 		

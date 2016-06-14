@@ -55,11 +55,13 @@ def main():
 	# this is the bit where we search in the database for the coords..
 	# we need to convert the GPS coords the the inifile gives us
 	# into the modified coords in the database
-		
+	
+	mapdata.MakeArray()
+	mapdata.getsize()
+	
 	maparray=mapdata.maparray
 	mapwidth=mapdata.mapwidth
 	mapheight=mapdata.mapheight
-	pickle.dump(maparray, open(picklefilename,'w') )
 
 	print "Mapheight:",mapheight
 	print "Mapwidth:",mapwidth
