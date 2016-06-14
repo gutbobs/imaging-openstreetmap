@@ -5,56 +5,57 @@ import copy
 import traceback
 import os
 import pickle
+import sys
 
 from modules import ColourRules
 from modules import LoadData
+from modules import LoadVariables
 
 __author__ = 'gutbobs'
 
 def main():
 	# User variables
-	multiple = 20
-	inputfilename = "F:\Documents\simple-gps-points.csv"
-	outputimage = "Whitby.png"
-	picklefilename = "array.pickle3"
-
+	#multiple = 20
+	#inputfilename = "F:\Documents\simple-gps-points.csv"
+	#outputimage = "Whitby.png"
+	#picklefilename = "array.pickle3"
+	# whitby
+	#topleft = [54.493873, -0.63386]
+	#bottomright = [54.468342, -0.602446]
+	# scale=50000
+	#largestside = 6000
 	# system variables
+
+	Vars=LoadVariables.OpenFile()
+	Vars.filename=sys.argv[1]
+	Vars.ReadFile()
+	if Vars.ErrorCode==0:
+		inputfilename=Vars.inputfilename
+		outputimage=Vars.outputfilename
+		topleft=Vars.topleft
+		bottomright=Vars.bottomright
+		largestside=Vars.largestside
+	else:
+		print "There is a problem with the ini file"
+		quit(Vars.ErrorCode)
+
 	starttime = time.time()
 	print time.ctime()
-	mapwidth, mapheight = 360 * multiple, 180 * multiple
-
-
-	# whitby
-	topleft = [54.493873, -0.63386]
-	bottomright = [54.468342, -0.602446]
-	# scale=50000
-	largestside = 6000
+	#mapwidth, mapheight = 360 * multiple, 180 * multiple
 
 	# load the data every time unless the pickle exists.
 	# if the pickle exists, then we're assuming that the map data (geofence) is within it
-	if os.path.exists(picklefilename):
-		print time.ctime(),
-		print "loading pickle file"
-		maparray=pickle.load( open(picklefilename,'r') )
-		mapdata=LoadData.LoadData()
-		mapdata.topleft=topleft
-		mapdata.bottomright=bottomright
-		mapdata.largestside=largestside
-		mapdata.maparray=maparray
-		mapdata.getsize()
-		mapwidth=mapdata.mapwidth
-		mapheight=mapdata.mapheight
-	else:
-		mapdata=LoadData.LoadData()
-		mapdata.inputfilename=inputfilename
-		mapdata.topleft=topleft
-		mapdata.bottomright=bottomright
-		mapdata.largestside=largestside
-		mapdata.go()
-		maparray=mapdata.maparray
-		mapwidth=mapdata.mapwidth
-		mapheight=mapdata.mapheight
-		pickle.dump(maparray, open(picklefilename,'w') )
+	
+	mapdata=LoadData.LoadData()
+	mapdata.inputfilename=inputfilename
+	mapdata.topleft=topleft
+	mapdata.bottomright=bottomright
+	mapdata.largestside=largestside
+	mapdata.DatabaseCheck()
+	maparray=mapdata.maparray
+	mapwidth=mapdata.mapwidth
+	mapheight=mapdata.mapheight
+	pickle.dump(maparray, open(picklefilename,'w') )
 
 	print "Mapheight:",mapheight
 	print "Mapwidth:",mapwidth

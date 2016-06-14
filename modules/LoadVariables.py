@@ -21,6 +21,7 @@ class OpenFile:
 
     def ReadFile(self):
         if not os.path.exists(self.filename): self.ErrorCode=1
+        print "Opening:",self.filename
 
         if self.ErrorCode==0:
             variablesdict={}
@@ -31,7 +32,6 @@ class OpenFile:
                 value=data[1:]
                 variablesdict[variable]=value
 
-            print variablesdict
             self.inputfilename="".join(variablesdict['inputfilename'])
             self.outputfilename="".join(variablesdict['outputfilename'])
             self.topleft=converttolist("".join(variablesdict['topleft']))

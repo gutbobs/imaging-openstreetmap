@@ -2,3 +2,5 @@
 array.pickle3
 modules/.idea
 *.png
+database.db
+database.db-jounal
