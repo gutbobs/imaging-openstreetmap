@@ -20,14 +20,14 @@ class LoadData:
 		# work out the scale - make the largest side of the map 'largestside' pixels
 		width = float(bottomright[1] - topleft[1])
 		height = float(topleft[0] - bottomright[0])
-		scale = self.largestside / max([width, height])
-		print(width, height, scale)
-		print(width, height, scale)
+		self.scale = self.largestside / max([width, height])
+		print(width, height, self.scale)
+		print(width, height, self.scale)
 
-		scale2 = scale
+		self.scale2 = self.scale
 
-		self.modtopleft = [topleft[0] * scale2, topleft[1] * scale]
-		self.modbottomright = [bottomright[0] * scale2, bottomright[1] * scale]
+		self.modtopleft = [topleft[0] * self.scale2, topleft[1] * self.scale]
+		self.modbottomright = [bottomright[0] * self.scale2, bottomright[1] * self.scale]
 
 		# now find the width and height of the map,
 		# by taking the topleft[0] from bottomright[0] and bottomright[1] from topleft[1]
@@ -81,8 +81,8 @@ class LoadData:
 			if lon > self.bottomright[1]: continue
 			# print lat,lon,modtopleft,modbottomright
 
-			lat2 = (lat * scale2) - self.modbottomright[0]
-			lon2 = (lon * scale) - self.modtopleft[1]
+			lat2 = (lat * self.scale2) - self.modbottomright[0]
+			lon2 = (lon * self.scale) - self.modtopleft[1]
 
 			try:
 				self.maparray[lat2, lon2] = self.maparray[lat2, lon2] + 1
