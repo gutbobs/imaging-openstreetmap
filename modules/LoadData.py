@@ -5,7 +5,6 @@ import os
 
 __author__ = 'gutbobs'
 
-
 class LoadData:
     def __init__(self):
         self.inputfilename = ""
@@ -89,7 +88,8 @@ class LoadData:
                     if count % 10000 == 0: print ".",
                     if count % 400000 == 0: print "{:,}".format(count)
                 conn.commit()
-
+			
+                if count == 100000000: break
             conn.close()
 
 
@@ -118,3 +118,11 @@ class LoadData:
             # quit(1)
         """
     print "Finished loading data"
+	
+    def MakeArray(self):
+        topleftx=(self.topleft[0]+90)*10000000
+        toplefty=(self.topleft[1]+180)*10000000
+        bottomrightx=(self.bottomright[0]+90)*10000000
+        bottomrighty=(self.bottomright[1]+180)*10000000
+		
+		

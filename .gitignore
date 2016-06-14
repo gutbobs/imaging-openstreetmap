@@ -4,3 +4,4 @@ modules/.idea
 *.png
 database.db
 database.db-jounal
+input/.

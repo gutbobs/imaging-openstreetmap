@@ -52,6 +52,10 @@ def main():
 	mapdata.bottomright=bottomright
 	mapdata.largestside=largestside
 	mapdata.DatabaseCheck()
+	# this is the bit where we search in the database for the coords..
+	# we need to convert the GPS coords the the inifile gives us
+	# into the modified coords in the database
+		
 	maparray=mapdata.maparray
 	mapwidth=mapdata.mapwidth
 	mapheight=mapdata.mapheight
