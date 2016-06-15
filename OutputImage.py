@@ -63,6 +63,11 @@ def main():
 	mapwidth=mapdata.mapwidth
 	mapheight=mapdata.mapheight
 
+	picklefilename = "array.pickle3"
+	picklefileobj=open(picklefilename,'wb')
+	pickle.dump(maparray,picklefileobj)
+	picklefileobj.close()
+
 	print "Mapheight:",mapheight
 	print "Mapwidth:",mapwidth
 
