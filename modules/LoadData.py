@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import pandas
 import sqlite3
@@ -24,19 +25,19 @@ class LoadData:
         # work out the scale - make the largest side of the map 'largestside' pixels
         width = float(bottomright[1] - topleft[1])
         height = float(topleft[0] - bottomright[0])
-        scale = self.largestside / max([width, height])
-        print width, height, scale
-        scale2 = scale
+        self.scale = self.largestside / max([width, height])
+        print width, height, self.scale
+        self.scale2 = self.scale
 
-        self.modtopleft = [topleft[0] * scale2, topleft[1] * scale]
-        self.modbottomright = [bottomright[0] * scale2, bottomright[1] * scale]
+        self.modtopleft = [topleft[0] * self.scale2, topleft[1] *self. scale]
+        self.modbottomright = [bottomright[0] * self.scale2, bottomright[1] * self.scale]
 
         # now find the width and height of the map,
         # by taking the topleft[0] from bottomright[0] and bottomright[1] from topleft[1]
         self.mapwidth = int(self.modbottomright[1] - self.modtopleft[1]) + 2
         self.mapheight = int(self.modtopleft[0] - self.modbottomright[0]) + 2
 
-        print self.modtopleft, self.modbottomright, self.mapwidth, self.mapheight
+        print "modtopleft:\t%s\nmodbottomright:\t%s\nmapwidth:\t%s\nmapheight:\t%s\n" %(self.modtopleft, self.modbottomright, self.mapwidth, self.mapheight)
 
         self.maparray = np.empty((self.mapwidth, self.mapheight), np.uint32)
         self.maparray.shape = self.mapheight, self.mapwidth
@@ -124,5 +125,49 @@ class LoadData:
         self.toplefty=(self.topleft[1]+180)*10000000
         self.bottomrightx=(self.bottomright[0]+90)*10000000
         self.bottomrighty=(self.bottomright[1]+180)*10000000
+
+        #print self.topleftx
+        #print self.toplefty
+        #print self.bottomrightx
+        #print self.bottomrighty
+
+        self.getsize()
+        #sqlquery="select lat,lon from gps where (lat < 570000000.0 and lon > 3450000000.0) and (lat > 430000000.0 and lon < 3580000000.0);"
+
+        sqlquery="SELECT LAT,LON from GPS WHERE (LAT <= %s and LON >= %s) and (LAT >= %s and LON <= %s);" %(self.topleftx,self.toplefty,self.bottomrightx,self.bottomrighty)
+        print sqlquery
+        conn=sqlite3.connect(self.dbname)
+        gpsdata=conn.execute(sqlquery)
+
+        rowcount=0
+        for row in gpsdata:
+            lat=row[0]/10000000
+            lon=row[1]/10000000
+
+            lat2 = (lat * self.scale2) - self.modbottomright[0]
+            lon2 = (lon * self.scale) - self.modtopleft[1]
+
+            #print lat2,lon2
+            if rowcount % 10000 == 0: 
+                print ".",
+                sys.stdout.flush()
+            if rowcount % 400000 == 0 : 
+                print rowcount
+                sys.stdout.flush()
+            rowcount+=1
+            try:
+                self.maparray[lat2, lon2] = self.maparray[lat2, lon2] + 1
+            except:
+                print rowcount, row
+                print lat, lon
+                print lat2, lon2
+                print modtopleft
+                print modbottomright
+                print self.mapheight, self.mapwidth
+                #print lat,lon
+        print "Map array complete"
+
+
+
 		
 		
