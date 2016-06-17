@@ -165,6 +165,7 @@ class LoadData:
                 print modbottomright
                 print self.mapheight, self.mapwidth
                 #print lat,lon
+
         print "Map array complete"
 
 
