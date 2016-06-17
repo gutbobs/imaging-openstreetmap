@@ -141,8 +141,8 @@ class LoadData:
 
         rowcount=0
         for row in gpsdata:
-            lat=row[0]/10000000
-            lon=row[1]/10000000
+            lat=float(row[0])/10000000
+            lon=float(row[1])/10000000
 
             lat2 = (lat * self.scale2) - self.modbottomright[0]
             lon2 = (lon * self.scale) - self.modtopleft[1]
@@ -156,15 +156,18 @@ class LoadData:
                 sys.stdout.flush()
             rowcount+=1
             try:
-                self.maparray[lat2, lon2] = self.maparray[lat2, lon2] + 1
+                self.maparray[lat2, lon2] +=1
             except:
-                print rowcount, row
-                print lat, lon
-                print lat2, lon2
-                print modtopleft
-                print modbottomright
-                print self.mapheight, self.mapwidth
-                #print lat,lon
+                print "row0 type",row[0].__class__
+                print "rowcount,row",rowcount, row
+                print "lat,lon %f,%f" % (lat, lon)
+                print "lat2,lon2,",lat2, lon2
+                print "self.modtopleft",self.modtopleft
+                print "self.modbottomright",self.modbottomright
+                print "self.mapheight,self.mapwidth",self.mapheight, self.mapwidth
+                print "self.scale,self.scale2",self.scale,self.scale2
+                print "lat2 calc2",lat*self.scale2-self.modbottomright[0]
+                quit()
 
         print "Map array complete"
 

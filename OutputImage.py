@@ -56,7 +56,7 @@ def main():
 	# we need to convert the GPS coords the the inifile gives us
 	# into the modified coords in the database
 	
-	mapdata.getsize()
+	#mapdata.getsize()
 	mapdata.MakeArray()
 	
 	
