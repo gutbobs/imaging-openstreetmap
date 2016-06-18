@@ -87,10 +87,10 @@ class LoadData:
 
 
                     if count % 10000 == 0: print ".",
-                    if count % 400000 == 0: print "{:,}".format(count)
+                    if count % 500000 == 0: print "{:,}".format(count)
                 conn.commit()
 			
-                if count == 100000000: break
+                #if count == 100000000: break
             conn.close()
 
 
