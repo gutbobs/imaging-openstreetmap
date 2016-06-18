@@ -4,7 +4,6 @@ import time
 import copy
 import traceback
 import os
-import pickle
 import sys
 
 from modules import ColourRules
@@ -41,11 +40,7 @@ def main():
 
 	starttime = time.time()
 	print time.ctime()
-	#mapwidth, mapheight = 360 * multiple, 180 * multiple
 
-	# load the data every time unless the pickle exists.
-	# if the pickle exists, then we're assuming that the map data (geofence) is within it
-	
 	mapdata=LoadData.LoadData()
 	mapdata.inputfilename=inputfilename
 	mapdata.topleft=topleft
@@ -56,18 +51,10 @@ def main():
 	# we need to convert the GPS coords the the inifile gives us
 	# into the modified coords in the database
 	
-	#mapdata.getsize()
 	mapdata.MakeArray()
-	
-	
 	maparray=mapdata.maparray
 	mapwidth=mapdata.mapwidth
 	mapheight=mapdata.mapheight
-
-	picklefilename = "array.pickle3"
-	picklefileobj=open(picklefilename,'wb')
-	pickle.dump(maparray,picklefileobj)
-	picklefileobj.close()
 
 	print "Mapheight:",mapheight
 	print "Mapwidth:",mapwidth
