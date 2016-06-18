@@ -5,3 +5,4 @@ modules/.idea
 database.db
 database.db-jounal
 input/.
+*.ini
